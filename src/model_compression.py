@@ -6,7 +6,6 @@ def quantize_model(model, representative_data):
     """Quantize model for mobile deployment"""
     model.eval()
     
-    # Post-training quantization
     model_q = torch.quantization.quantize_dynamic(
         model, {nn.Linear, nn.Conv2d}, dtype=torch.qint8
     )

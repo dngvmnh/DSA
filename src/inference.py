@@ -10,11 +10,9 @@ import argparse
 from pathlib import Path
 import numpy as np
 
-# Your best model architecture (copy from your files)
 class LightweightHemoglobinCNN(nn.Module):
     def __init__(self, num_classes=1):
         super().__init__()
-        # Copy exact architecture from your cnn_model.py
         self.features = nn.Sequential(
             nn.Conv2d(3, 32, 3, padding=1),
             nn.BatchNorm2d(32),
@@ -60,13 +58,11 @@ def predict(images_dir, meta_csv, output_file="predictions.csv"):
     """
     pillow_heif.register_heif_opener()
     
-    # Load model
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = LightweightHemoglobinCNN().to(device)
     model.load_state_dict(torch.load("cnn_model.pth", map_location=device))
     model.eval()
     
-    # Preprocessing
     transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
@@ -74,13 +70,11 @@ def predict(images_dir, meta_csv, output_file="predictions.csv"):
                            std=[0.229, 0.224, 0.225])
     ])
     
-    # Load metadata
     if os.path.exists(meta_csv):
         meta_df = pd.read_csv(meta_csv)
     else:
         meta_df = pd.DataFrame()
     
-    # Get all image files
     image_files = []
     for ext in ['.jpg', '.jpeg', '.png', '.heic', '.heif']:
         image_files.extend(Path(images_dir).glob(f"*{ext}"))
@@ -91,15 +85,12 @@ def predict(images_dir, meta_csv, output_file="predictions.csv"):
     with torch.no_grad():
         for img_path in image_files:
             try:
-                # Load and preprocess image
                 img = Image.open(img_path).convert("RGB")
                 img_tensor = transform(img).unsqueeze(0).to(device)
                 
-                # Predict
                 output = model(img_tensor)
                 pred_hgb = output.cpu().numpy()[0, 0]
                 
-                # Store prediction
                 predictions.append({
                     'image_id': img_path.stem,
                     'predicted_hgb': float(pred_hgb)
@@ -107,13 +98,11 @@ def predict(images_dir, meta_csv, output_file="predictions.csv"):
                 
             except Exception as e:
                 print(f"Error processing {img_path}: {e}")
-                # Fallback prediction
                 predictions.append({
                     'image_id': img_path.stem,
-                    'predicted_hgb': 12.0  # Average hemoglobin
+                    'predicted_hgb': 12.0  
                 })
     
-    # Save predictions
     pred_df = pd.DataFrame(predictions)
     pred_df.to_csv(output_file, index=False)
     print(f"Saved {len(predictions)} predictions to {output_file}")
@@ -128,5 +117,4 @@ if __name__ == "__main__":
     
     args = parser.parse_args()
     
-    # Run prediction
     predict(args.images, args.meta, args.out)

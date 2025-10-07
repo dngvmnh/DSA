@@ -4,26 +4,21 @@ def comprehensive_model_evaluation():
     import numpy as np
     from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-    # Load all CSVs
     labels_df = pd.read_csv("labels.csv")
     baseline_df = pd.read_csv("baseline_predictions.csv")
     cnn_df = pd.read_csv("cnn_predictions.csv")
     multimodal_df = pd.read_csv("multimodal_predictions.csv")
 
-    # Normalize keys: add .heic to labels
     labels_df['filename'] = labels_df['image_id'].astype(str) + '.heic'
     labels_df.rename(columns={'hgb': 'hgb_value'}, inplace=True)
 
-    # Merge consistently on filename
     results = labels_df[['filename', 'hgb_value']].copy()
     results = results.merge(baseline_df, on='filename', how='left')
     results = results.merge(cnn_df, on='filename', how='left')
     results = results.merge(multimodal_df, on='filename', how='left')
 
-    # Drop rows with any missing predictions
     results.dropna(subset=['predicted_hgb_baseline', 'predicted_hgb', 'predicted_hgb_multi'], inplace=True)
 
-    # Evaluate
     models_performance = {}
     for model_name, pred_col in [
         ("Baseline", "predicted_hgb_baseline"),
@@ -43,7 +38,6 @@ def comprehensive_model_evaluation():
             'Meets_Target': "✓" if mae <= 0.8 else "✗"
         }
 
-    # Print results
     perf_df = pd.DataFrame(models_performance).T
     print("=== Model Performance Comparison ===")
     print(perf_df.round(3))

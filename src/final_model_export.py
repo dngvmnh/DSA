@@ -9,7 +9,6 @@ from model_compression import quantize_model, export_to_onnx
 class LightweightHemoglobinCNN(nn.Module):
     def __init__(self, num_classes=1):
         super().__init__()
-        # Copy exact architecture from your cnn_model.py
         self.features = nn.Sequential(
             nn.Conv2d(3, 32, 3, padding=1),
             nn.BatchNorm2d(32),
@@ -45,25 +44,21 @@ class LightweightHemoglobinCNN(nn.Module):
         x = self.classifier(x)
         return x
 
-# Load your best model
 model = LightweightHemoglobinCNN()
 model.load_state_dict(torch.load("cnn_model.pth"))
 
-# Check model size
 model_size = os.path.getsize("cnn_model.pth") / (1024 * 1024)  # MB
 print(f"Model size: {model_size:.2f} MB")
 
 if model_size > 50:
     print("Model too large! Applying compression...")
-    # Apply quantization from your model_compression.py
     model_q = quantize_model(model)
     torch.save(model_q.state_dict(), "best_model_compressed.pth")
     
-    # Check size again
     compressed_size = os.path.getsize("best_model_compressed.pth") / (1024 * 1024)
     print(f"Compressed model size: {compressed_size:.2f} MB")
 
-# Export to ONNX (required format)
+# Export to ONNX
 sample_input = torch.randn(1, 3, 224, 224)
 export_to_onnx(model, sample_input)
 

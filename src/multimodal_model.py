@@ -8,7 +8,7 @@ class MultiModalHemoglobinModel(nn.Module):
         super().__init__()
         
         self.image_encoder = LightweightHemoglobinCNN()
-        self.image_encoder.classifier = nn.Identity()  # Remove final layer
+        self.image_encoder.classifier = nn.Identity()  
         
         self.metadata_encoder = nn.Sequential(
             nn.Linear(metadata_input_dim, 32),

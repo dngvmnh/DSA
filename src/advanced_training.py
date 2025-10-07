@@ -1,11 +1,10 @@
-# advanced_training_fixed.py
+# advanced_training.py
 import pandas as pd
 import torch
 import torch.nn as nn
 from sklearn.model_selection import GroupKFold
 import torch.optim.lr_scheduler as lr_scheduler
 
-# ---------------- Stratified splits ----------------
 def create_stratified_splits(df):
     df['hgb_bin'] = pd.cut(df['hgb_value'], 
                             bins=[0, 8, 10, 12, 15, 20], 
@@ -15,7 +14,6 @@ def create_stratified_splits(df):
     splits = list(gkf.split(df, df['hgb_bin'], groups=df['individual_id']))
     return splits
 
-# ---------------- Focal MAE Loss ----------------
 class FocalMAELoss(nn.Module):
     def __init__(self, alpha=2.0):
         super().__init__()
@@ -26,7 +24,6 @@ class FocalMAELoss(nn.Module):
         focal_weight = torch.pow(mae / (mae.max() + 1e-8), self.alpha)
         return torch.mean(focal_weight * mae)
 
-# ---------------- Training loop ----------------
 def train_model(model, train_loader, val_loader, epochs=50):
     criterion = FocalMAELoss()
     optimizer = torch.optim.AdamW(model.parameters(), lr=0.001, weight_decay=0.01)
@@ -46,7 +43,6 @@ def train_model(model, train_loader, val_loader, epochs=50):
             optimizer.step()
             train_loss += loss.item()
         
-        # For now, simple validation without fairness metrics
         model.eval()
         val_mae = 0
         with torch.no_grad():
@@ -78,7 +74,6 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
     val_loader   = DataLoader(val_dataset, batch_size=8)
 
-    # Simple model for testing
     model = nn.Sequential(
         nn.Flatten(),
         nn.Linear(3*224*224, 128),
@@ -86,5 +81,4 @@ if __name__ == "__main__":
         nn.Linear(128, 1)
     )
 
-    # Train
     train_model(model, train_loader, val_loader, epochs=30)

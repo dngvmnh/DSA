@@ -32,7 +32,6 @@ def evaluate_fairness_across_groups(model, test_loader, ethnicities_array):
         'ethnicity': ethnicities_array
     })
 
-    # Calculate MAE per ethnic group
     fairness_report = {}
     for ethnicity in results_df['ethnicity'].unique():
         mask = results_df['ethnicity'] == ethnicity
