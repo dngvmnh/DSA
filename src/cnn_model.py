@@ -88,7 +88,7 @@ model = LightweightHemoglobinCNN().to(device)
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-num_epochs = 30
+num_epochs = 50
 best_val_mae = float('inf')
 early_stop_patience = 5
 no_improve_epochs = 0

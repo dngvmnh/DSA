@@ -81,4 +81,4 @@ if __name__ == "__main__":
         nn.Linear(128, 1)
     )
 
-    train_model(model, train_loader, val_loader, epochs=30)
+    train_model(model, train_loader, val_loader, epochs=50)

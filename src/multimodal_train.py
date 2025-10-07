@@ -73,7 +73,7 @@ model = MultiModalHemoglobinModel(metadata_input_dim=metadata.shape[1]).to(devic
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
 
-num_epochs = 30
+num_epochs = 50
 best_val_mae = float('inf')
 
 for epoch in range(num_epochs):
