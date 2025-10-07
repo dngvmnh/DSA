@@ -10,8 +10,8 @@ import pillow_heif
 
 pillow_heif.register_heif_opener()
 
-df = pd.read_csv("data_inventory.csv")
-data_dir = "SMU/Comps/DSA/data"
+df = pd.read_csv("DSA/data_inventory.csv")
+data_dir = "DSA/data"
 
 def extract_color_features(image_path):
     img = np.array(Image.open(image_path))

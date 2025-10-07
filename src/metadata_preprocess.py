@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-meta_df = pd.read_csv("meta.csv")
+meta_df = pd.read_csv("DSA/meta.csv")
 
 meta_df['sequence'] = meta_df['sequence'].fillna(0)  # unknown sequence as 0
 meta_df['device_id'] = meta_df['device_id'].fillna(-1)  # unknown device

@@ -1,5 +1,4 @@
 #!/bin/bash
-# make_executable.sh - Make all scripts executable
 
 chmod +x run_full_pipeline.sh
 chmod +x run_evaluation_only.sh  

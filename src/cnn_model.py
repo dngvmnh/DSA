@@ -66,8 +66,8 @@ class LightweightHemoglobinCNN(nn.Module):
         x = self.classifier(x)
         return x
 
-data_dir = "SMU/Comps/DSA/data"
-df = pd.read_csv("data_inventory.csv")
+data_dir = "DSA/data"
+df = pd.read_csv("DSA/data_inventory.csv")
 
 transform = transforms.Compose([
     transforms.Resize((224, 224)),

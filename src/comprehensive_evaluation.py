@@ -4,10 +4,10 @@ def comprehensive_model_evaluation():
     import numpy as np
     from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-    labels_df = pd.read_csv("labels.csv")
-    baseline_df = pd.read_csv("baseline_predictions.csv")
-    cnn_df = pd.read_csv("cnn_predictions.csv")
-    multimodal_df = pd.read_csv("multimodal_predictions.csv")
+    labels_df = pd.read_csv("DSA/labels.csv")
+    baseline_df = pd.read_csv("DSA/baseline_predictions.csv")
+    cnn_df = pd.read_csv("DSA/cnn_predictions.csv")
+    multimodal_df = pd.read_csv("DSA/multimodal_predictions.csv")
 
     labels_df['filename'] = labels_df['image_id'].astype(str) + '.heic'
     labels_df.rename(columns={'hgb': 'hgb_value'}, inplace=True)
@@ -35,7 +35,6 @@ def comprehensive_model_evaluation():
             'RMSE': rmse,
             'Mean_Bias': mean_bias,
             'R2': r2,
-            'Meets_Target': "✓" if mae <= 0.8 else "✗"
         }
 
     perf_df = pd.DataFrame(models_performance).T

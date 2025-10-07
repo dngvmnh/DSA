@@ -14,7 +14,7 @@ def parse_filename(filename):
     return None, None
 
 
-data_dir = "SMU/Comps/DSA/data"
+data_dir = "DSA/data"
 valid_ext = ('.jpg', '.jpeg', '.png', '.heic', '.heif', '.tif', '.bmp')
 
 data_inventory = []

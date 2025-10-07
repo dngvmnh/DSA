@@ -14,7 +14,7 @@ sample_files = df.sample(30)['filename'].tolist()
 os.makedirs("plots", exist_ok=True)
 
 for filename in sample_files:
-    img_path = f"SMU/Comps/DSA/data/{filename}"
+    img_path = f"DSA/data/{filename}"
 
     try:
         img = np.array(Image.open(img_path))

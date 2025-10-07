@@ -3,7 +3,7 @@ import pandas as pd
 from pathlib import Path
 import re
 
-df = pd.read_csv("data_inventory.csv")
+df = pd.read_csv("DSA/data_inventory.csv")
 
 # labels.csv
 labels_data = []

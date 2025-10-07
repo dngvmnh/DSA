@@ -14,10 +14,10 @@ from cnn_model import LightweightHemoglobinCNN
 
 pillow_heif.register_heif_opener()
 
-df = pd.read_csv("data_inventory.csv")
-data_dir = "SMU/Comps/DSA/data"
+df = pd.read_csv("DSA/data_inventory.csv")
+data_dir = "DSA/data"
 
-meta_df = pd.read_csv("meta.csv")
+meta_df = pd.read_csv("DSA/meta.csv")
 
 df['image_id'] = df['filename'].apply(lambda x: Path(x).stem)
 meta_df['image_id'] = meta_df['image_id'].apply(lambda x: str(x).strip())

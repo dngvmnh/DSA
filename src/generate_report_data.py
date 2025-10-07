@@ -15,7 +15,6 @@ architecture_info = {
     'Model_Size': f'{model_size:.1f} MB'
 }
 
-print("=== Model Architecture ===")
 for k, v in architecture_info.items():
     print(f"{k}: {v}")
 

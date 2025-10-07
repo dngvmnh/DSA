@@ -11,7 +11,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 pillow_heif.register_heif_opener()
 df = pd.read_csv("data_inventory.csv")
-data_dir = "SMU/Comps/DSA/data"
+data_dir = "DSA/data"
 y = df['hgb_value'].values
 
 def extract_advanced_features(image_path):
