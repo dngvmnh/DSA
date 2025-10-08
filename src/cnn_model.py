@@ -100,8 +100,8 @@ train_size = len(dataset) - val_size
 train_dataset, val_dataset = random_split(dataset, [train_size, val_size])
 print(f"Train size: {len(train_dataset)}, Val size: {len(val_dataset)}")
 
-train_loader = DataLoader(train_dataset, batch_size=100, shuffle=True, num_workers=0)
-val_loader = DataLoader(val_dataset, batch_size=100, shuffle=False, num_workers=0)
+train_loader = DataLoader(train_dataset, batch_size=20, shuffle=True, num_workers=0)
+val_loader = DataLoader(val_dataset, batch_size=20, shuffle=False, num_workers=0)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ImprovedHemoglobinCNN().to(device)
@@ -109,7 +109,7 @@ criterion = nn.MSELoss()
 optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
 scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=3)
 
-num_epochs = 50
+num_epochs = 20
 best_val_mae = float('inf')
 early_stop_patience = 10
 no_improve_epochs = 0
